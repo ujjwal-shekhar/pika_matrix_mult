@@ -1,5 +1,11 @@
 #include <iostream>
 #include <chrono> // For chrono time
+
+#include <pika/execution.hpp>
+#include <pika/init.hpp>
+
+#include <fmt/printf.h>
+
 #include "Matrix.hpp"
 
 int main(int argc, char* argv[]) {
@@ -65,7 +71,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Perform matrix multiplication using custom operator*
-    pika::execution::experimental::sync_wait(
+    pika::this_thread::experimental::sync_wait(
         pika::execution::experimental::schedule(
             pika::execution::experimental::thread_pool_scheduler{}) |
         pika::execution::experimental::then([&]() {
