@@ -31,6 +31,9 @@ int main(int argc, char* argv[]) {
         s = std::atoi(argv[6]);
     }
 
+    // Initialize the pika runtime
+    pika::start(0, nullptr);
+
     // Set random seed
     srand(s);
 
@@ -62,7 +65,13 @@ int main(int argc, char* argv[]) {
     }
 
     // Perform matrix multiplication using custom operator*
-    C = A * B;
+    pika::execution::experimental::sync_wait(
+        pika::execution::experimental::schedule(
+            pika::execution::experimental::thread_pool_scheduler{}) |
+        pika::execution::experimental::then([&]() {
+            C = A * B; // Perform matrix multiplication using @ operator
+        })
+    );
 
     // Output matrices A, B, and result matrix C
     std::cout << "Matrix A:" << std::endl;
@@ -73,6 +82,10 @@ int main(int argc, char* argv[]) {
 
     std::cout << "Result Matrix C (A * B):" << std::endl;
     std::cout << C << std::endl;
+
+    // Finalize the pika runtime
+    pika::finalize();
+    pika::stop();
 
     return 0;
 }
