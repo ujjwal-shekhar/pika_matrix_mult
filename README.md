@@ -28,7 +28,7 @@ make
 
 - Once the target gets built, run the executable 
 ```bash
-./matrix_multiplication
+./matrix_multiply
 ```
 
 You will get an output that looks like:
@@ -51,7 +51,7 @@ Result Matrix C (A * B):
 
 To use different settings and/or change the random seed (without `<` or `>`):
 ```bash
-./matrix_multiplication <n> <k> <m> <l> <r> <s>
+./matrix_multiply <n> <k> <m> <l> <r> <s>
 ```
 
 where:
